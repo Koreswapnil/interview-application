@@ -1,0 +1,75 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #000;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'urbanist';
+}
+
+a {
+  font-size: 1.7rem;
+  letter-spacing: 0.1rem;
+}
+
+header {
+  height: 8rem;
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+  width: 100%;
+  background-color: #531414;
+}
+
+.logo {
+  background-color: #531414;
+}
+
+.container {
+  max-width: 132rem;
+  margin: auto;
+  height: 10rem;
+}
+
+.grid {
+  display: grid;
+}
+
+.navbar-grid {
+  grid-template-columns: 0.5fr 1fr;
+  align-items: center;
+  height: 10rem;
+  padding: 0 3.2rem;
+  color: #d4e6f1;
+  background-color: #531414;
+}
+
+.nav {
+  color: yellow;
+  text-decoration: underline;
+  border: 8px solid #4a0101;
+  border-radius: 25px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: flex-end;
+  gap: 3.2rem;
+  background-color: #531414;
+}
+
+li {
+  list-style: none;
+  background-color: #531414;
+}
+
+a {
+  color: #bea6a6;
+  text-decoration: none;
+  background-color: #531414;
+  &:hover {
+    color: #2e86c1;
+    text-decoration: underline;
+  }
+}
