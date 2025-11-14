@@ -1,9 +1,9 @@
-* {
+/* *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #000;
-}
+  background-color: #000; 
+ }
 
 html {
   font-size: 62.5%;
@@ -72,4 +72,46 @@ a {
     color: #2e86c1;
     text-decoration: underline;
   }
+} */
+
+/* Login Page */
+/* .login-form {
+  background-color: #ffff;
+  color: #04385c;
+  padding: 25px;
 }
+
+.login-form div {
+  background-color: #ffff;
+  color: #04385c;
+  padding: 25px;
+}
+
+.login-form h2 {
+  color: #000;
+  background-color: #ffff;
+  font-size: 25px;
+  font-weight: 700;
+  text-emphasis: center;
+}
+
+.form-label {
+  background-color: #ffff;
+  padding: 10px;
+}
+
+.form-control {
+  background-color: #ffff;
+  padding: 5px;
+}
+
+.login-form button {
+  background-color: #5f27ee;
+  color: #ffff;
+  width: auto;
+  border-radius: 8px;
+  border: none;
+  padding: 10px 20px;
+  align-items: center;
+  text-align: center;
+} */

@@ -7,12 +7,15 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
 import JavascriptScreen from './Screens/JavascriptScreen';
 import HtmlCssScreen from './Screens/HtmlCssScreen';
 import ReactScreen from './Screens/ReactScreen';
 import NodeScreen from './Screens/NodeScreen';
 import ExpressScreen from './Screens/ExpressScreen';
 import QuizScreen from './components/QuizScreen';
+import LoginScreen from './Screens/LoginScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,12 +26,15 @@ const router = createBrowserRouter(
       <Route path="/react" element={<ReactScreen />} />
       <Route path="/node" element={<NodeScreen />} />
       <Route path="/express" element={<ExpressScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
     </Route>
   )
 );
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>
 );
