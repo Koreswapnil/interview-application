@@ -1,16 +1,3 @@
-// const ChildComponent = ({ question }) => {
-//   return (
-//     <div key={question.id}>
-//       <h3 style={{ backgroungColor: 'red', color: 'green' }}>
-//         {question.id}. {question.Q}
-//       </h3>
-//       <p>{question.A}</p>
-//     </div>
-//   );
-// };
-
-// export default ChildComponent;
-
 const ChildComponent = ({ question }) => {
   return (
     <div className="rounded-lg shadow-sm bg-dark">
@@ -18,7 +5,7 @@ const ChildComponent = ({ question }) => {
         {question.id}. {question.Q}
       </h3>
 
-      <p className="text-gray-800 text-white leading-relaxed">{question.A}</p>
+      <p className="text-white leading-relaxed">{question.A}</p>
     </div>
   );
 };
