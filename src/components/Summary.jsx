@@ -48,7 +48,7 @@ const Summary = ({ questions, userAnswer, correctAnswer, handleNewTest }) => {
   ).length;
 
   return (
-    <div className="w-full max-w-3xl mx-auto p-6">
+    <div className="w-full max-w-3xl mx-auto p-0">
       <button
         onClick={handleNewTest}
         className="mb-6 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -63,13 +63,13 @@ const Summary = ({ questions, userAnswer, correctAnswer, handleNewTest }) => {
       {questions.map((que, idx) => (
         <div
           key={que.id}
-          className="mb-6 p-5 bg-white dark:bg-gray-900 rounded-xl shadow"
+          className="mb-4 p-3 bg-white dark:bg-gray-900 rounded-xl shadow"
         >
           <h2 className="text-xl font-semibold mb-3 text-gray-200">
             {que.id}. {que.text}
           </h2>
 
-          <div className="space-y-2 ">
+          <div className="space-y-1 ">
             <p className="text-green-600 font-medium">
               ✓ Correct Answer: {que.answers[0]}
             </p>

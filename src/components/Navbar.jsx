@@ -1,142 +1,9 @@
-// import React, { useState } from 'react';
-// import { Link } from 'react-router-dom';
-
-// const Navbar = () => {
-//   const [home, setHome] = useState(false);
-//   const [html, setHtml] = useState(false);
-//   const [js, setJs] = useState(false);
-//   const [r, setR] = useState(false);
-//   const [node, setNode] = useState(false);
-//   const [ex, setEx] = useState(false);
-//   const [login, setLogin] = useState(false);
-
-//   const handleHome = () => {
-//     setHome(true);
-//     setHtml(false);
-//     setJs(false);
-//     setR(false);
-//     setNode(false);
-//     setEx(false);
-//     setLogin(false);
-//   };
-
-//   const handleHtml = () => {
-//     setHtml(true);
-//     setHome(false);
-//     setJs(false);
-//     setR(false);
-//     setNode(false);
-//     setEx(false);
-//     setLogin(false);
-//   };
-
-//   const handleJs = () => {
-//     setJs(true);
-//     setHome(false);
-//     setHtml(false);
-//     setR(false);
-//     setNode(false);
-//     setEx(false);
-//     setLogin(false);
-//   };
-
-//   const handleR = () => {
-//     setR(true);
-//     setHome(false);
-//     setHtml(false);
-//     setJs(false);
-//     setNode(false);
-//     setEx(false);
-//     setLogin(false);
-//   };
-//   const nodeHandler = () => {
-//     setR(false);
-//     setHome(false);
-//     setHtml(false);
-//     setJs(false);
-//     setNode(true);
-//     setEx(false);
-//     setLogin(false);
-//   };
-//   const exHandler = () => {
-//     setR(false);
-//     setHome(false);
-//     setHtml(false);
-//     setJs(false);
-//     setNode(false);
-//     setEx(true);
-//     setLogin(false);
-//   };
-
-//   const loginHandler = () => {
-//     setR(false);
-//     setHome(false);
-//     setHtml(false);
-//     setJs(false);
-//     setNode(false);
-//     setEx(false);
-//     setLogin(true);
-//   };
-//   return (
-//     <header>
-//       <div className="container">
-//         <div className="grid navbar-grid">
-//           <div className="logo">
-//             <h1 style={{ backgroundColor: '#531414' }}>Int-Q</h1>
-//           </div>
-
-//           <nav aria-label="Main Navigation">
-//             <ul className="nav-links">
-//               <li className={home ? 'nav' : null} onClick={handleHome}>
-//                 <Link to="/quiz" className={home ? 'nav' : null}>
-//                   Quiz
-//                 </Link>
-//               </li>
-//               <li className={html ? 'nav' : null} onClick={handleHtml}>
-//                 <Link to="/html&css" className={html ? 'nav' : null}>
-//                   HTML CSS
-//                 </Link>
-//               </li>
-//               <li className={js ? 'nav' : null} onClick={handleJs}>
-//                 <Link to="/javascript" className={js ? 'nav' : null}>
-//                   JavaScript
-//                 </Link>
-//               </li>
-//               <li className={r ? 'nav' : null} onClick={handleR}>
-//                 <Link to="/react" className={r ? 'nav' : null}>
-//                   React
-//                 </Link>
-//               </li>
-//               <li className={node ? 'nav' : null} onClick={nodeHandler}>
-//                 <Link to="/node" className={node ? 'nav' : null}>
-//                   Node
-//                 </Link>
-//               </li>
-//               <li className={ex ? 'nav' : null} onClick={exHandler}>
-//                 <Link to="/express" className={ex ? 'nav' : null}>
-//                   Express
-//                 </Link>
-//               </li>
-//               <li className={ex ? 'nav' : null} onClick={loginHandler}>
-//                 <Link to="/login" className={login ? 'nav' : null}>
-//                   Login
-//                 </Link>
-//               </li>
-//             </ul>
-//           </nav>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Navbar;
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [active, setActive] = useState('home');
+  const [isOpen, setIsOpen] = useState(false); // 🔥 Toggle state
 
   const menuItems = [
     { id: 'quiz', label: 'Quiz', path: '/quiz' },
@@ -156,16 +23,31 @@ const Navbar = () => {
           Int-Q
         </div>
 
+        {/* Toggle Button - Visible on Mobile */}
+        <button
+          className="md:hidden text-gray-700 text-3xl"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          ☰
+        </button>
+
         {/* Navigation */}
-        <nav>
-          <ul className="flex space-x-6">
+        <nav
+          className={`${
+            isOpen ? 'block' : 'hidden'
+          } md:block absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none`}
+        >
+          <ul className="flex flex-col md:flex-row md:space-x-6 p-4 md:p-0">
             {menuItems.map((item) => (
               <li
                 key={item.id}
-                onClick={() => setActive(item.id)}
-                className={`cursor-pointer font-medium ${
+                onClick={() => {
+                  setActive(item.id);
+                  setIsOpen(false); // close menu on click (mobile)
+                }}
+                className={`cursor-pointer font-medium py-2 md:py-0 ${
                   active === item.id
-                    ? 'text-blue-600 border-b-2 border-blue-600 pb-1'
+                    ? 'text-blue-600 border-b-2 border-blue-600 md:pb-1'
                     : 'text-gray-700 hover:text-blue-600'
                 }`}
               >
