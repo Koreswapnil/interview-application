@@ -1,82 +1,12 @@
-// import { useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { useLoginMutation } from '../redux/slices/userSlice';
-// import { setCredentials } from '.././redux/slices/authSlice';
-// import { toast } from 'react-toastify';
-
-// const LoginScreen = () => {
-//   const [email, setEmail] = useState();
-//   const [password, setPassword] = useState();
-
-//   const dispatch = useDispatch();
-
-//   const [login, { isLoading }] = useLoginMutation();
-
-//   //   const { userInfo } = useSelector((state) => state.auth);
-
-//   const submitHandler = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const res = await login({ email, password }).unwrap();
-//       dispatch(setCredentials({ ...res }));
-//     } catch (error) {
-//       toast.error(error?.data?.message || error.error);
-//       console.log(error);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className="login-form">
-//         <form className="login-form" onSubmit={submitHandler}>
-//           <h2>Login</h2>
-//           <div className="email">
-//             <label htmlFor="email_field" className="form-label">
-//               Email
-//             </label>
-//             <br />
-//             <input
-//               type="email"
-//               id="email_field"
-//               className="form-control"
-//               name="email"
-//               value={email}
-//               onChange={(e) => setEmail(e.target.value)}
-//             />
-//           </div>
-
-//           <div>
-//             <label htmlFor="password_field" className="form-label">
-//               Password
-//             </label>
-//             <input
-//               type="password"
-//               id="password_field"
-//               className="form-control"
-//               name="password"
-//               value={password}
-//               onChange={(e) => setPassword(e.target.value)}
-//             />
-//           </div>
-
-//           <button id="login_button" type="submit" disabled={isLoading}>
-//             LOGIN
-//           </button>
-//         </form>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default LoginScreen;
-
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../redux/slices/userSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const LoginScreen = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -88,6 +18,7 @@ const LoginScreen = () => {
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials(res));
+      navigate('/quiz');
       toast.success('Login Successful!');
     } catch (error) {
       toast.error(error?.data?.message || error.error);

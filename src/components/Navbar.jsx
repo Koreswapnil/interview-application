@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [active, setActive] = useState('home');
-  const [isOpen, setIsOpen] = useState(false); // 🔥 Toggle state
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  // Prevent crash if userInfo is undefined
+  const userName = userInfo?.name || 'User';
 
   const menuItems = [
     { id: 'quiz', label: 'Quiz', path: '/quiz' },
@@ -12,8 +18,11 @@ const Navbar = () => {
     { id: 'react', label: 'React', path: '/react' },
     { id: 'node', label: 'Node', path: '/node' },
     { id: 'express', label: 'Express', path: '/express' },
-    { id: 'login', label: 'Login', path: '/login' },
+    !userInfo
+      ? { id: 'login', label: 'Login', path: '/login' }
+      : { id: 'profile', label: userName, path: '/profile' },
   ];
+  // If logged in → show username instead of login
 
   return (
     <header className="bg-white shadow-md">
@@ -23,7 +32,7 @@ const Navbar = () => {
           Int-Q
         </div>
 
-        {/* Toggle Button - Visible on Mobile */}
+        {/* Toggle Button for Mobile */}
         <button
           className="md:hidden text-gray-700 text-3xl"
           onClick={() => setIsOpen(!isOpen)}
@@ -43,7 +52,7 @@ const Navbar = () => {
                 key={item.id}
                 onClick={() => {
                   setActive(item.id);
-                  setIsOpen(false); // close menu on click (mobile)
+                  setIsOpen(false); // close drawer on mobile
                 }}
                 className={`cursor-pointer font-medium py-2 md:py-0 ${
                   active === item.id

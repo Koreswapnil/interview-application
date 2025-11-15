@@ -16,10 +16,12 @@ import NodeScreen from './Screens/NodeScreen';
 import ExpressScreen from './Screens/ExpressScreen';
 import QuizScreen from './components/QuizScreen';
 import LoginScreen from './Screens/LoginScreen';
+import UserProfile from './Screens/UserProfile';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route index={true} path="/" element={<HtmlCssScreen />} />
       <Route path="/quiz" element={<QuizScreen />} />
       <Route path="/html&css" element={<HtmlCssScreen />} />
       <Route path="/javascript" element={<JavascriptScreen />} />
@@ -27,6 +29,7 @@ const router = createBrowserRouter(
       <Route path="/node" element={<NodeScreen />} />
       <Route path="/express" element={<ExpressScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/profile" element={<UserProfile />} />
     </Route>
   )
 );
