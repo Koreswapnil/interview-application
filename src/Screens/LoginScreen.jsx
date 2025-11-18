@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLoginMutation } from '../redux/slices/userSlice';
 import { setCredentials } from '../redux/slices/authSlice';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -81,6 +81,17 @@ const LoginScreen = () => {
             {isLoading ? 'Logging in...' : 'LOGIN'}
           </button>
         </form>
+
+        {/* bottom links */}
+        <p className="text-center text-gray-600 mt-6">
+          New user?
+          <Link
+            to="/register"
+            className="text-blue-600 font-semibold hover:underline ml-1"
+          >
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );

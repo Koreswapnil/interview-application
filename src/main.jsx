@@ -17,6 +17,7 @@ import ExpressScreen from './Screens/ExpressScreen';
 import QuizScreen from './components/QuizScreen';
 import LoginScreen from './Screens/LoginScreen';
 import UserProfile from './Screens/UserProfile';
+import UserRegisterScreen from './Screens/UserRegisterScreen';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
       <Route path="/node" element={<NodeScreen />} />
       <Route path="/express" element={<ExpressScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/register" element={<UserRegisterScreen />} />
       <Route path="/profile" element={<UserProfile />} />
     </Route>
   )

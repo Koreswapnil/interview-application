@@ -1,32 +1,73 @@
 import { useState } from 'react';
-import { quiz } from '../Question/Quiz';
 import Summary from './Summary';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useGetQuizArrayQuery } from '../redux/slices/quizSlice';
+import { useSaveAnswersMutation } from '../redux/slices/answerSlice';
 
 const QuizScreen = () => {
+  // 1️⃣ ALL HOOKS FIRST
   const { userInfo } = useSelector((state) => state.auth);
   const [test, setTest] = useState(1);
+  const [isShowScore, setIsShowScore] = useState(false);
 
-  const questions = quiz[test - 1];
-
-  const correctAnswer = questions.map((q) => q.answers[0]);
+  const { data: questions, isLoading, isError } = useGetQuizArrayQuery(test);
 
   const [userAnswer, setUserAnswer] = useState([]);
 
+  const [saveAnswers] = useSaveAnswersMutation();
+
+  // 2️⃣ SAFE VARIABLES (DON’T TOUCH DATA UNTIL LOADED)
+  const correctAnswer = questions?.map((q) => q.answers[0]) ?? [];
+
   const activeQuestionIndex = userAnswer.length;
-  const quizIsComplete = activeQuestionIndex === questions.length;
+  const quizIsComplete = questions && activeQuestionIndex === questions.length;
 
-  const handleSelectAnswer = (selectedAnswer) => {
-    setUserAnswer((prev) => [...prev, selectedAnswer]);
+  const handleQuizSubmit = async () => {
+    const score = questions.filter(
+      (q, idx) => userAnswer[idx] === correctAnswer[idx]
+    ).length;
+
+    await saveAnswers({
+      test,
+      answers: userAnswer,
+      score: score,
+    });
+    setIsShowScore(true);
   };
 
-  const newTestHandler = () => {
-    setTest(test + 1);
-    setUserAnswer([]);
-  };
+  // 3️⃣ EARLY RETURNS ONLY AFTER ALL HOOKS
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-800">
+        <h1 className="text-white text-2xl">Loading Quiz...</h1>
+      </div>
+    );
+  }
 
-  if (quizIsComplete) {
+  if (isError || !questions) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-red-900">
+        <h1 className="text-white text-2xl">Failed to load quiz.</h1>
+      </div>
+    );
+  }
+
+  // 4️⃣ QUIZ COMPLETED UI
+  if (quizIsComplete && !isShowScore) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-800 p-4">
+        <button
+          onClick={handleQuizSubmit}
+          className="mt-6 w-auto bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
+        >
+          Submit Test
+        </button>
+      </div>
+    );
+  }
+
+  if (quizIsComplete && isShowScore) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-800 p-4">
         <div className="bg-white shadow-lg rounded-xl p-8 w-full max-w-2xl text-center">
@@ -38,15 +79,20 @@ const QuizScreen = () => {
             questions={questions}
             userAnswer={userAnswer}
             correctAnswer={correctAnswer}
-            handleNewTest={newTestHandler}
+            handleNewTest={() => {
+              setTest(test + 1);
+              setUserAnswer([]);
+            }}
           />
         </div>
       </div>
     );
   }
 
-  const shuffledAnswers = [...questions[activeQuestionIndex].answers];
-  shuffledAnswers.sort(() => Math.random() - 0.5);
+  // 5️⃣ SHUFFLE ANSWERS SAFELY
+  const shuffledAnswers = [...questions[activeQuestionIndex].answers].sort(
+    () => Math.random() - 0.5
+  );
 
   return (
     <>
@@ -63,9 +109,9 @@ const QuizScreen = () => {
                 Select Test:
               </h2>
               <select
-                defaultValue={test}
+                value={test}
                 onChange={(e) => setTest(Number(e.target.value))}
-                className="border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-blue-400 focus:ring"
+                className="border border-gray-300 rounded-lg px-4 py-2 bg-white"
               >
                 <option value={1}>Test-1</option>
                 <option value={2}>Test-2</option>
@@ -74,7 +120,7 @@ const QuizScreen = () => {
             </div>
           </div>
 
-          {/* Question Section */}
+          {/* Question UI */}
           <div className="max-w-4xl mx-auto bg-white shadow-lg p-8 rounded-xl">
             <h2 className="text-2xl font-semibold mb-6 text-gray-800">
               {questions[activeQuestionIndex].id}.{' '}
@@ -89,7 +135,7 @@ const QuizScreen = () => {
                 >
                   <button
                     className="text-lg w-full text-left"
-                    onClick={() => handleSelectAnswer(answer)}
+                    onClick={() => setUserAnswer([...userAnswer, answer])}
                   >
                     {answer}
                   </button>
@@ -99,21 +145,20 @@ const QuizScreen = () => {
 
             <button
               className="mt-6 w-full bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition"
-              onClick={() => handleSelectAnswer(null)}
+              onClick={() => setUserAnswer([...userAnswer, null])}
             >
               Skip Question
             </button>
           </div>
         </div>
       ) : (
-        <div className="min-h-screen flex items-center justify-center bg-gray-800 px-4">
-          <div className="bg-gray-800 text-center">
-            <h2 className="text-xl font-semibold text-gray-100 mb-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-800">
+          <div className="text-center">
+            <h2 className="text-xl text-gray-100 mb-4">
               For solving the quiz, you have to log in first.
             </h2>
-
             <Link to="/login">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition">
+              <button className="bg-blue-600 text-white px-5 py-2 rounded-lg">
                 Click for Login
               </button>
             </Link>
